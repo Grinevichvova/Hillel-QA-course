@@ -1,0 +1,737 @@
+{
+	"info": {
+		"_postman_id": "24e7f305-9725-4e43-b139-75a7c800004b",
+		"name": "Check All cars",
+		"description": "Create the following postman collection [https://qauto.forstudy.space/api-docs/](https://qauto.forstudy.space/api-docs/)\n\n- **Додати тести для перевірки параметрів експенсів.**\n- **1) Створити по 2 або більше експенсів для кожного авто.**\n- **2) Параметри експенсів задади в масиві в пререквесті першого запиту.**\n- **3) Перевірити параметри кожного авто після створення кожного експенсу для нього, а також перевірити параметри всіх авто після створення останнього експенсу.**",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29521592"
+	},
+	"item": [
+		{
+			"name": "User signup",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"user id exists\", function () {\r",
+							"    var userId = pm.response.json().data.userId;\r",
+							"    pm.expect(userId).to.exist;\r",
+							"    pm.collectionVariables.set(\"UserID\", userId);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"testData exists\", function () {\r",
+							"    pm.expect(pm.collectionVariables.get(\"testData\")).to.exist;\r",
+							"});\r",
+							"pm.test(\"expenseData exists\", function () {\r",
+							"    pm.expect(pm.collectionVariables.get(\"expenseData\")).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"URL\", \"https://qauto.forstudy.space/api\");\r",
+							"\r",
+							"pm.collectionVariables.set(\"UserName\", '\"Rick\"');\r",
+							"pm.collectionVariables.set(\"UserLastName\", '\"Marty\"');\r",
+							"pm.collectionVariables.set(\"UserEmail\", '\"data12302323@test.com\"');\r",
+							"pm.collectionVariables.set(\"UserPassword\", '\"Qwerty12345\"');\r",
+							"\r",
+							"let testData = \r",
+							"[\r",
+							"    {\r",
+							"        \"BrandName\": \"BMW\",\r",
+							"        \"ModelName\": \"Z3\",\r",
+							"        \"Milleage\": 100\r",
+							"    },\r",
+							"    {\r",
+							"        \"BrandName\": \"Ford\",\r",
+							"        \"ModelName\": \"Fiesta\",\r",
+							"        \"Milleage\": 44\r",
+							"    },\r",
+							"    {\r",
+							"        \"BrandName\": \"Porsche\",\r",
+							"        \"ModelName\": \"Panamera\",\r",
+							"        \"Milleage\": 500\r",
+							"    }\r",
+							"];\r",
+							"pm.collectionVariables.set(\"testData\", testData);\r",
+							"\r",
+							"let expenseData = \r",
+							"[\r",
+							"    {\r",
+							"        \"mileage\": 22,\r",
+							"        \"liters\": 1,\r",
+							"        \"totalCost\": 141,\r",
+							"        \"carNumber\": 1\r",
+							"    },\r",
+							"    {\r",
+							"        \"mileage\": 55,\r",
+							"        \"liters\": 121,\r",
+							"        \"totalCost\": 11,\r",
+							"        \"carNumber\": 2\r",
+							"    },\r",
+							"    {\r",
+							"        \"mileage\": 10,\r",
+							"        \"liters\": 21,\r",
+							"        \"totalCost\": 123,\r",
+							"        \"carNumber\": 0\r",
+							"    },\r",
+							"    {\r",
+							"        \"mileage\": 11,\r",
+							"        \"liters\": 13,\r",
+							"        \"totalCost\": 141,\r",
+							"        \"carNumber\": 1\r",
+							"    },\r",
+							"    {\r",
+							"        \"mileage\": 5,\r",
+							"        \"liters\": 121,\r",
+							"        \"totalCost\": 11,\r",
+							"        \"carNumber\": 2\r",
+							"    },\r",
+							"    {\r",
+							"        \"mileage\": 700,\r",
+							"        \"liters\": 13,\r",
+							"        \"totalCost\": 141,\r",
+							"        \"carNumber\": 1\r",
+							"    },\r",
+							"    {\r",
+							"        \"mileage\": 1000,\r",
+							"        \"liters\": 21,\r",
+							"        \"totalCost\": 123,\r",
+							"        \"carNumber\": 0\r",
+							"    }\r",
+							"]\r",
+							"pm.collectionVariables.set(\"expenseData\", expenseData);\r",
+							"\r",
+							"pm.collectionVariables.set(\"carCounter\", 0);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": {{UserName}},\r\n  \"lastName\": {{UserLastName}},\r\n  \"email\": {{UserEmail}},\r\n  \"password\": {{UserPassword}},\r\n  \"repeatPassword\": {{UserPassword}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/auth/signup",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "brands",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"let testData = pm.collectionVariables.get(\"testData\");\r",
+							"let jsonData = pm.response.json().data;\r",
+							"for (let carData of testData)\r",
+							"{\r",
+							"    for (let element of jsonData)\r",
+							"    {\r",
+							"        if (element.title == carData.BrandName)\r",
+							"        {\r",
+							"            carData.BrandId = element.id;\r",
+							"            break;\r",
+							"        }\r",
+							"    }\r",
+							"}\r",
+							"\r",
+							"pm.collectionVariables.set(\"testData\", testData);\r",
+							"\r",
+							"pm.test(\"BrandId exists\", function () {\r",
+							"    for (let element of pm.collectionVariables.get(\"testData\"))\r",
+							"    {\r",
+							"        pm.expect(element.BrandId).to.exist;\r",
+							"    }\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/cars/brands",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"cars",
+						"brands"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "models",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"let testData = pm.collectionVariables.get(\"testData\");\r",
+							"let jsonData = pm.response.json().data;\r",
+							"for (let carData of testData)\r",
+							"{\r",
+							"    for (let element of jsonData)\r",
+							"    {\r",
+							"        if (element.title == carData.ModelName && element.carBrandId == carData.BrandId)\r",
+							"        {\r",
+							"            carData.ModelId = element.id;\r",
+							"            break;\r",
+							"        }\r",
+							"    }\r",
+							"}\r",
+							"\r",
+							"pm.collectionVariables.set(\"testData\", testData);\r",
+							"\r",
+							"for (let element of pm.collectionVariables.get(\"testData\"))\r",
+							"{\r",
+							"    pm.test(\"ModelId exists \" + element.ModelId, function () {\r",
+							"        pm.expect(element.ModelId).to.exist;\r",
+							"    });\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/cars/models",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"cars",
+						"models"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "new car",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let carCounter = pm.collectionVariables.get(\"carCounter\");\r",
+							"let carData = pm.collectionVariables.get(\"testData\")[carCounter];\r",
+							"\r",
+							"pm.collectionVariables.set(\"CarBrandID\", carData.BrandId);\r",
+							"pm.collectionVariables.set(\"CarModelID\", carData.ModelId);\r",
+							"pm.collectionVariables.set(\"Mileage\", carData.Milleage);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201); // bug. must be 200\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json().data;\r",
+							"\r",
+							"let carCounter = pm.collectionVariables.get(\"carCounter\");\r",
+							"let testData = pm.collectionVariables.get(\"testData\");\r",
+							"let carData = testData[carCounter];\r",
+							"\r",
+							"pm.test(\"carBrendId\", function () {\r",
+							"    pm.expect(jsonData.carBrandId).to.exist;\r",
+							"    pm.expect(jsonData.carBrandId).to.eql(carData.BrandId);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"carModelId\", function () {\r",
+							"    pm.expect(jsonData.carModelId).to.exist;\r",
+							"    pm.expect(jsonData.carModelId).to.eql(carData.ModelId);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"initialMileage \" + carData.Milleage, function () {\r",
+							"    pm.expect(jsonData.initialMileage).to.exist;\r",
+							"    pm.expect(jsonData.initialMileage).to.eql(carData.Milleage);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"mileage\", function () {\r",
+							"    pm.expect(jsonData.mileage).to.exist;\r",
+							"    pm.expect(jsonData.mileage).to.eql(carData.Milleage);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"brand\", function () {\r",
+							"    pm.expect(jsonData.brand).to.exist;\r",
+							"    pm.expect(jsonData.brand).to.eql(carData.BrandName);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"model\", function () {\r",
+							"    pm.expect(jsonData.model).to.exist;\r",
+							"    pm.expect(jsonData.model).to.eql(carData.ModelName);\r",
+							"});\r",
+							"\r",
+							"carData.carId = jsonData.id;\r",
+							"carData.reportedAt = jsonData.updatedMileageAt.split(\"T\")[0];\r",
+							"pm.collectionVariables.set(\"testData\", testData);\r",
+							"\r",
+							"carCounter++;\r",
+							"pm.collectionVariables.set(\"carCounter\", carCounter);\r",
+							"\r",
+							"if (carCounter < pm.collectionVariables.get(\"testData\").length)\r",
+							"{\r",
+							"    postman.setNextRequest(\"new car\");\r",
+							"}\r",
+							"else\r",
+							"{\r",
+							"    pm.collectionVariables.set(\"carCounter\", 0);\r",
+							"\r",
+							"    for (let element of pm.collectionVariables.get(\"testData\"))\r",
+							"    {\r",
+							"        pm.test(\"carId exists \" + element.carId, function () {\r",
+							"            pm.expect(element.carId).to.exist;\r",
+							"        });\r",
+							"        pm.test(\"reportedAt exists \" + element.reportedAt, function () {\r",
+							"            pm.expect(element.reportedAt).to.exist;\r",
+							"        });\r",
+							"    }\r",
+							"\r",
+							"    postman.setNextRequest(\"expenses\");\r",
+							"}\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"carBrandId\": {{CarBrandID}},\r\n  \"carModelId\": {{CarModelID}},\r\n  \"mileage\": {{Mileage}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/cars",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"cars"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "expenses",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let carCounter = pm.collectionVariables.get(\"carCounter\");\r",
+							"let testData = pm.collectionVariables.get(\"testData\");\r",
+							"\r",
+							"if (carCounter === 0)\r",
+							"{\r",
+							"    let expenseData = pm.collectionVariables.get(\"expenseData\");\r",
+							"    expenseData = expenseData.sort((a, b) => a.carNumber - b.carNumber)\r",
+							"    \r",
+							"    for (let i in expenseData) {\r",
+							"        let expense = expenseData[i]\r",
+							"        if (i > 0 && expense.carNumber === expenseData[i - 1].carNumber) {\r",
+							"            expense.mileage += expenseData[i - 1].mileage\r",
+							"        }\r",
+							"    }\r",
+							"\r",
+							"    for (let expense of expenseData)\r",
+							"    {   \r",
+							"        carData = testData[expense.carNumber];\r",
+							"        expense.carId = carData.carId;\r",
+							"        expense.reportedAt = carData.reportedAt;\r",
+							"        expense.mileage += carData.Milleage;\r",
+							"    }\r",
+							"    pm.collectionVariables.set(\"expenseData\", expenseData);\r",
+							"}\r",
+							"\r",
+							"let expenseData = pm.collectionVariables.get(\"expenseData\")[carCounter];\r",
+							"pm.collectionVariables.set(\"carId\", expenseData.carId);\r",
+							"pm.collectionVariables.set(\"reportedAt\", expenseData.reportedAt);\r",
+							"pm.collectionVariables.set(\"mileage\", expenseData.mileage);\r",
+							"pm.collectionVariables.set(\"liters\", expenseData.liters);\r",
+							"pm.collectionVariables.set(\"totalCost\", expenseData.totalCost);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"let carCounter = pm.collectionVariables.get(\"carCounter\");\r",
+							"\r",
+							"let expenseData = pm.collectionVariables.get(\"expenseData\");\r",
+							"let expense = expenseData[carCounter];\r",
+							"\r",
+							"let jsonData = pm.response.json().data;\r",
+							"\r",
+							"pm.test(\"carId \" + expense.carId, function () {\r",
+							"    pm.expect(jsonData.carId).to.exist;\r",
+							"    pm.expect(jsonData.carId).to.eql(expense.carId);\r",
+							"});\r",
+							"pm.test(\"reportedAt\", function () {\r",
+							"    pm.expect(jsonData.reportedAt).to.exist;\r",
+							"    pm.expect(jsonData.reportedAt).to.eql(expense.reportedAt);\r",
+							"});\r",
+							"pm.test(\"liters\", function () {\r",
+							"    pm.expect(jsonData.liters).to.exist;\r",
+							"    pm.expect(jsonData.liters).to.eql(expense.liters);\r",
+							"});\r",
+							"pm.test(\"mileage \" + expense.mileage, function () {\r",
+							"    pm.expect(jsonData.mileage).to.exist;\r",
+							"    pm.expect(jsonData.mileage).to.eql(expense.mileage);\r",
+							"});\r",
+							"pm.test(\"totalCost\", function () {\r",
+							"    pm.expect(jsonData.totalCost).to.exist;\r",
+							"    pm.expect(jsonData.totalCost).to.eql(expense.totalCost);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"carId\": {{carId}},\r\n  \"reportedAt\": \"{{reportedAt}}\",\r\n  \"mileage\": {{mileage}},\r\n  \"liters\": {{liters}},\r\n  \"totalCost\": {{totalCost}},\r\n  \"forceMileage\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/expenses",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"expenses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Current car",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"let carCounter = pm.collectionVariables.get(\"carCounter\");",
+							"let jsonData = pm.response.json().data;",
+							"",
+							"let expenseData = pm.collectionVariables.get(\"expenseData\");",
+							"let expense = expenseData[carCounter];",
+							"",
+							"pm.test(\"mileage \" + expense.mileage, function () {",
+							"    pm.expect(jsonData.mileage).to.exist;",
+							"    pm.expect(jsonData.mileage).to.eql(expense.mileage);",
+							"});",
+							"pm.test(\"updatedMileageAt\", function () {",
+							"    pm.expect(jsonData.updatedMileageAt).to.exist;",
+							"    pm.expect(jsonData.updatedMileageAt.split(\"T\")[0]).to.eql(expense.reportedAt);",
+							"});",
+							"",
+							"let testData = pm.collectionVariables.get(\"testData\");",
+							"",
+							"for (let carData of testData) {",
+							"    if (jsonData.id === carData.carId) {",
+							"        pm.test(\"carId\", function () {",
+							"            pm.expect(jsonData.id).to.exist;",
+							"            pm.expect(jsonData.id).to.eql(carData.carId);",
+							"        });",
+							"        pm.test(\"carBrandId\", function () {",
+							"            pm.expect(jsonData.carBrandId).to.exist;",
+							"            pm.expect(jsonData.carBrandId).to.eql(carData.BrandId);",
+							"        });",
+							"        pm.test(\"carModelId\", function () {",
+							"            pm.expect(jsonData.carModelId).to.exist;",
+							"            pm.expect(jsonData.carModelId).to.eql(carData.ModelId);",
+							"        });",
+							"        pm.test(\"initialMilleage \" + carData.Milleage, function () {",
+							"            pm.expect(jsonData.initialMileage).to.exist;",
+							"            pm.expect(jsonData.initialMileage).to.eql(carData.Milleage);",
+							"        });",
+							"        pm.test(\"brand\", function () {",
+							"            pm.expect(jsonData.brand).to.exist;",
+							"            pm.expect(jsonData.brand).to.eql(carData.BrandName);",
+							"        });",
+							"        pm.test(\"model\", function () {",
+							"            pm.expect(jsonData.model).to.exist;",
+							"            pm.expect(jsonData.model).to.eql(carData.ModelName);",
+							"        });",
+							"        break;",
+							"    }   ",
+							"};",
+							"carCounter++;",
+							"pm.collectionVariables.set(\"carCounter\", carCounter);",
+							"",
+							"if (carCounter != pm.collectionVariables.get(\"expenseData\").length) {",
+							"    postman.setNextRequest(\"expenses\");",
+							"} else {",
+							"    postman.setNextRequest(\"All Cars\");",
+							"    // postman.setNextRequest(null)",
+							"};",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/cars/{{carId}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"cars",
+						"{{carId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Cars",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"let jsonData = pm.response.json().data;",
+							"let testData = pm.collectionVariables.get(\"testData\");",
+							"",
+							"for (let carData of testData) {",
+							"    for (let element of jsonData) {",
+							"        if (element.id === carData.carId) {",
+							"            pm.test(\"carId\", function () {",
+							"                pm.expect(element.id).to.exist;",
+							"                pm.expect(element.id).to.eql(carData.carId);",
+							"            });",
+							"            pm.test(\"carBrandId\", function () {",
+							"                pm.expect(element.carBrandId).to.exist;",
+							"                pm.expect(element.carBrandId).to.eql(carData.BrandId);",
+							"            });",
+							"            pm.test(\"carModelId\", function () {",
+							"                pm.expect(element.carModelId).to.exist;",
+							"                pm.expect(element.carModelId).to.eql(carData.ModelId);",
+							"            });",
+							"            pm.test(\"carCreatedAt\", function () {",
+							"                pm.expect(element.carCreatedAt).to.exist;",
+							"                pm.expect(element.carCreatedAt.split(\"T\")[0]).to.eql(carData.reportedAt);",
+							"            });",
+							"            pm.test(\"initialMilleage \" + carData.Milleage, function () {",
+							"                pm.expect(element.initialMileage).to.exist;",
+							"                pm.expect(element.initialMileage).to.eql(carData.Milleage);",
+							"            });",
+							"            pm.test(\"brand\", function () {",
+							"                pm.expect(element.brand).to.exist;",
+							"                pm.expect(element.brand).to.eql(carData.BrandName);",
+							"            });",
+							"            pm.test(\"model\", function () {",
+							"                pm.expect(element.model).to.exist;",
+							"                pm.expect(element.model).to.eql(carData.ModelName);",
+							"            });",
+							"        }",
+							"    }   ",
+							"};",
+							"",
+							"let expenseData = pm.collectionVariables.get(\"expenseData\");",
+							"",
+							"for (let i = 0; i < jsonData.length; i++) {",
+							"    let expense = expenseData.findLast(element => element.carNumber === i)",
+							"    for (let element of jsonData) {",
+							"        if (element.id === expense.carId) {",
+							"            pm.test(\"updatedMileageAt\", function () {",
+							"                pm.expect(element.updatedMileageAt).to.exist;",
+							"                pm.expect(element.updatedMileageAt.split(\"T\")[0]).to.eql(expense.reportedAt);",
+							"            });",
+							"            pm.test(\"mileage \" + expense.mileage, function () {",
+							"                pm.expect(element.mileage).to.exist;",
+							"                pm.expect(element.mileage).to.eql(expense.mileage);",
+							"            });",
+							"        }",
+							"    }",
+							"};",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/cars",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"cars"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test('Body matches \"status\":\"ok\"', function () {\r",
+							"    pm.expect(pm.response.text()).to.include('\"status\":\"ok\"');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/users",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
